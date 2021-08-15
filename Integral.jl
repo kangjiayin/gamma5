@@ -84,6 +84,7 @@ function  GaussLegendreK(down,up,n)
     down=sqrt(down)
     up=sqrt(up)
     x=down*up*(up/down).^s
+    w[i]*=x[i]*(log(up)-log(down))
     x,w
 end
 
