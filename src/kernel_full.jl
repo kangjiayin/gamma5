@@ -4,7 +4,7 @@ kernel_eva=kernel-I
 right=[ones(dim) ;zeros(3*dim)]
 
 
-solution=kernel_eva\right
+solution=-kernel_eva\right
 F1=Array{Float64}(undef, kstep, zstep)
 F2=Array{Float64}(undef, kstep, zstep)
 F3=Array{Float64}(undef, kstep, zstep)
@@ -20,4 +20,11 @@ Threads.@threads for i=1:4*dim
     k=getk((i-1)%dim+1)
     z=getz((i-1)%dim+1)
     FF[f][k,z]=solution[i]
+end
+
+F1k=zeros(kstep)
+for i=1:kstep
+    for j=1:zstep
+        F1k[i]+=F1[i,j]*weightz[j]
+    end
 end
