@@ -19,8 +19,8 @@
 # end
 time1=time()
 
-Threads.@threads for i = 1:dim
-    for j=1:dim
+Threads.@threads for j = 1:dim
+    for i=1:dim
         K2=k[i]::Float64
         Q2=k[j]::Float64
         Zk=z[i]::Float64
@@ -144,5 +144,5 @@ Threads.@threads for i = 1:dim
         )::Float64
     end
 end
-time1-=time1
+time1-=time()
 print(time1)
