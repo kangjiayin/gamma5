@@ -29,3 +29,4 @@ for i=1:kstep
         F1k[i]+=F1[i,j]*weightz[j]
     end
 end
+# plot(meshk,F1k,scale=:log10)
