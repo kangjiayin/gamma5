@@ -1,24 +1,6 @@
-# using ProfileVega
-# include("./integral.jl")
-
-# function upgrateconst(i,j)
-#     QPlus2=qPlus2[j]
-#     QSub2=qSubt2[j]
-#     Kdotp=kdotp[i]
-#     Pdotq=pdotq[j]
-#     innerA1=A1[j]
-#     innerB1=B1[j]
-#     innerA2=A2[j]
-#     innerB2=B2[j]
-#     weightzk=weightz[i]
-#     weightzq=weightz[j]
-#     K2=k[i]
-#     Q2=k[j]
-#     Zk=z[i]
-#     Zq=z[j]
-# end
 time1=time()
 
+# 这里修改了下顺序，看看能不能更快
 Threads.@threads for j = 1:dim
     for i=1:dim
         K2=k[i]::Float64
