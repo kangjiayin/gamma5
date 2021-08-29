@@ -1,8 +1,8 @@
+# using JSON3
+# using Plots
+# using FastGaussQuadrature
 using LinearAlgebra
 using Dierckx
-#using JSON3
-#using Plots
-# using FastGaussQuadrature
 using BenchmarkTools
 using JLD2
 
@@ -56,7 +56,7 @@ meshz,weightz=gausschebyshev(zstep,2);
 ##注意在kernel中，外动量为k指标为i，内动量q指标为j
 ##定义一系列变量
 kfunction(x::Int64)=meshk[getk(x)]::Float64
-zfunction(x::Int64)=meshz[getz(x)]::Float64
+zfunction(x::Int64)=mshz[getz(x)]::Float64
 qPlus2function(j::Int64)=(P2/4+k[j]+sqrt(P2*k[j])*z[j])::Float64
 qSubt2function(j::Int64)=(P2/4+k[j]-sqrt(P2*k[j])*z[j])::Float64
 kdotpfunction(i::Int64)=sqrt(k[i]*P2)*z[i]::Float64
