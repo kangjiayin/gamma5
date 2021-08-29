@@ -5,11 +5,13 @@ using LinearAlgebra
 using Dierckx
 using BenchmarkTools
 using JLD2
+# View in github: https://github.com/kangjiayin/Gaussquad.jl
+using Gaussquad
+using FastGaussQuadrature
 
-include("/Users/kjy/Desktop/program/julia/module/GaussQuad/src/gaussQuad.jl")
-include("/Users/kjy/Desktop/program/julia/module/GaussQuad/src/gaussmesh.jl")
 
-P2=0.01
+
+P2=0.1
 #常数区域
 const τ=ℯ^2-1;
 const Λ=0.234;
@@ -56,7 +58,7 @@ meshz,weightz=gausschebyshev(zstep,2);
 ##注意在kernel中，外动量为k指标为i，内动量q指标为j
 ##定义一系列变量
 kfunction(x::Int64)=meshk[getk(x)]::Float64
-zfunction(x::Int64)=mshz[getz(x)]::Float64
+zfunction(x::Int64)=meshz[getz(x)]::Float64
 qPlus2function(j::Int64)=(P2/4+k[j]+sqrt(P2*k[j])*z[j])::Float64
 qSubt2function(j::Int64)=(P2/4+k[j]-sqrt(P2*k[j])*z[j])::Float64
 kdotpfunction(i::Int64)=sqrt(k[i]*P2)*z[i]::Float64

@@ -1,7 +1,7 @@
-time1=time()
+
 
 # 这里修改了下顺序，看看能不能更快
-Threads.@threads for j = 1:dim
+@time Threads.@threads for j = 1:dim
     for i=1:dim
         K2=k[i]::Float64
         Q2=k[j]::Float64
@@ -127,5 +127,3 @@ Threads.@threads for j = 1:dim
         )::Float64
     end
 end
-time1-=time()
-print(time1)
