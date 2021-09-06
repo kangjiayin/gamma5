@@ -30,7 +30,7 @@ const dim=kstep*zstep
 ##导入原来的数据
 function Inport()
     local A, B, k
-    A, B,k=load("/Users/kjy/Desktop/program/julia/Gamma5/data/ABk512.jld2","A","B","k")
+    A, B,k=load("/Users/kjy/Desktop/program/julia/Gamma5/data/ABk1024.jld2","A","B","k")
     global AA
     global BB
     AA=Spline1D(k,A)
