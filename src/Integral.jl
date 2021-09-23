@@ -11,7 +11,7 @@ using FastGaussQuadrature
 
 
 
-P2=0.1
+# P2=0.1
 #常数区域
 const τ=ℯ^2-1;
 const Λ=0.234;
@@ -22,15 +22,15 @@ const rm=12/(33 - 2*Nf);
 const kstep=32
 const zstep=16
 const ystep=64
-const cutup=10^4+0.
-const cutdown=10^(-4)+0.
+const cutup=10. ^4
+const cutdown=10. ^(-4)
 const mt=0.5
 const dim=kstep*zstep
 
 ##导入原来的数据
 function Inport()
     local A, B, k
-    A, B,k=load("/Users/kjy/Desktop/program/julia/Gamma5/data/ABk1024.jld2","A","B","k")
+    A, B,k=load("/Users/kjy/Desktop/program/julia/Gamma5/data/ABk4.jld2","A","B","k");
     global AA
     global BB
     AA=Spline1D(k,A)
@@ -53,8 +53,8 @@ getk(x::Int64)=((x-1)÷zstep+1)::Int64
 
 
 # 动量点和权重
-meshk,weightk= gausslegendremesh(cutdown,cutup,kstep,2)
-meshz,weightz=gausschebyshev(zstep,2);
+meshk,weightk= gausslegendremesh(cutdown,cutup,kstep,2);
+meshz,weightz= gausschebyshev(zstep,2);
 ##注意在kernel中，外动量为k指标为i，内动量q指标为j
 ##定义一系列变量
 kfunction(x::Int64)=meshk[getk(x)]::Float64
@@ -70,19 +70,19 @@ B2function(j::Int64)=BB(qSubt2[j])::Float64
 
 
 ##这里应该初始化下用到的量，转化为Table
-k=Array{Float64}(undef,dim,1)
-z=Array{Float64}(undef,dim,1)
-qPlus2=Array{Float64}(undef,dim,1)
-qSubt2=Array{Float64}(undef,dim,1)
-kdotp=Array{Float64}(undef,dim,1)
-pdotq=Array{Float64}(undef,dim,1)
-A1=Array{Float64}(undef,dim,1)
-B1=Array{Float64}(undef,dim,1)
-A2=Array{Float64}(undef,dim,1)
-B2=Array{Float64}(undef,dim,1)
-branchplus=Array{Float64}(undef,dim,1)
-branchsubt=Array{Float64}(undef,dim,1)
-branch=Array{Float64}(undef,dim,1)
+k=Array{Float64}(undef,dim,1);
+z=Array{Float64}(undef,dim,1);
+qPlus2=Array{Float64}(undef,dim,1);
+qSubt2=Array{Float64}(undef,dim,1);
+kdotp=Array{Float64}(undef,dim,1);
+pdotq=Array{Float64}(undef,dim,1);
+A1=Array{Float64}(undef,dim,1);
+B1=Array{Float64}(undef,dim,1);
+A2=Array{Float64}(undef,dim,1);
+B2=Array{Float64}(undef,dim,1);
+branchplus=Array{Float64}(undef,dim,1);
+branchsubt=Array{Float64}(undef,dim,1);
+branch=Array{Float64}(undef,dim,1);
 Threads.@threads for i=1:dim
     k[i]=kfunction(i)
     z[i]=zfunction(i)

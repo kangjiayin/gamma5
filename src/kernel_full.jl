@@ -30,9 +30,9 @@ F4k=zeros(kstep)
 for i=1:kstep
     for j=1:zstep
         F1k[i]+=F1[i,j]*weightz[j]*2/pi
-        F2k[i]+=F2[i,j]*weightz[j]*2/pi
-        F3k[i]+=F3[i,j]*weightz[j]*2/pi
-        F4k[i]+=F4[i,j]*weightz[j]*2/pi
+        # F2k[i]+=F2[i,j]*weightz[j]*2/pi
+        # F3k[i]+=F3[i,j]*weightz[j]*2/pi
+        # F4k[i]+=F4[i,j]*weightz[j]*2/pi
     end
 end
 # plot(meshk,F1k,scale=:log10)
