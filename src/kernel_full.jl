@@ -2,7 +2,7 @@ using Plots
 kernel=[kernel11 kernel12 kernel13 kernel14;kernel21 kernel22 kernel23 kernel24;kernel31 kernel32 kernel33 kernel34;kernel41 kernel42 kernel43 kernel44;]
 #δ=Diagonal(ones(4*dim))
 kernel_eva=kernel-I
-right=[ones(dim) ;zeros(3*dim)]
+right=[z4*ones(dim) ;zeros(3*dim)]
 
 
 solution=-kernel_eva\right

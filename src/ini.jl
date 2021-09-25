@@ -27,6 +27,8 @@ const cutdown=10. ^(-4)
 const mt=0.5
 const dim=kstep*zstep
 
+z4=0.8274856637442727 #十的四次方
+# z4=1.
 ##导入原来的数据
 function Inport()
     local A, B, k

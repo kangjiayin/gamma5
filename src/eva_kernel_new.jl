@@ -3,7 +3,6 @@
 # 这里修改了下顺序，看看能不能更快
 @time Threads.@threads for j = 1:dim
     for i=1:dim
-        z4=0.8274856637442727 #十的四次方
         K2=k[i]::Float64
         Q2=k[j]::Float64
         Zk=z[i]::Float64
@@ -29,7 +28,7 @@
         d=K2+Q2::Float64
         Ksubq2(y)=d-2*Kdotq(y)::Float64
         ###
-        allkindsofweight=z4*Weightzq*Weightq*Q2*1/(16*pi^3)
+        allkindsofweight=Weightzq*Weightq*Q2*1/(16*pi^3)
         
         kernel11[i,j]=gausslegendreint64(y->
         -allkindsofweight*
