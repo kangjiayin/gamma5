@@ -1,7 +1,11 @@
 using JLD2
 using Plots
+using Gaussquad
+
+k=gausslegendremesh(10. ^-4,10. ^4,32,2);
 P2=Array{Float64}(undef,32,1)
 F1k=Array{Float64}(undef,32,32)
+kname=Array{String}(undef,32,1)
 @time for i=1:32
     local a, b
     global P2,F1k
@@ -9,3 +13,11 @@ F1k=Array{Float64}(undef,32,32)
     P2[i]=a
     F1k[i,:]=b
 end #for i
+
+# for i=1:32
+#     global kname
+#     kn=k[i]
+#     kname[i]="k=$kn"
+# end
+
+# scattter(P2,F1k,xlim=[0,1.3],lable=k)
