@@ -1,40 +1,35 @@
-
-
 # 这里修改了下顺序，看看能不能更快
-@time Threads.@threads for j = 1:dim
-    for i=1:dim
+@time Threads.@threads for i = 1:dim
+    for j = 1:dim
         K2=k[i]
         Q2=k[j]
         Zk=z[i]
         Zq=z[j]
-        # QPlus2=qPlus2[j]
-        # QSub2=qSubt2[j]
         Kdotp=kdotp[i]
         Pdotq=pdotq[j]
         innerA1=A1[j]
         innerB1=B1[j]
         innerA2=A2[j]
         innerB2=B2[j]
-        #weightzk=weightz[i]
-        Weightzq=weightz[Int(getz(Int(j)))]
-        Weightq=weightk[Int(getz(Int(j)))]
-        #这里的a,b,c是纯纯的过程参数，可以不用管
+        # weightzk=weightz[i]
+        Weightzq=weightz[getz(j)]
+        Weightq=weightk[getk(j)]
+        # 这里的a,b,c是纯纯的过程参数，可以不用管
+        # 
         a=sqrt(K2*Q2)
         b=Zk*Zq
         c=sqrt((1-Zk^2)*(1-Zq^2))
-        b=a*b
-        c=a*c
-        Kdotq(y)=b+c*y
         d=K2+Q2
+        Kdotq(y)=(b+c*y)*a
         Ksubq2(y)=d-2*Kdotq(y)
-        ###
-        allkindsofweight=Weightzq*Weightq*Q2*1/(16*pi^3)
+        # 这里注意，三分之四在推导kernel就加进去了
+        allkindsofweight=Weightzq*Weightq*Q2/(16*pi^3)
         
-        # kernel11[i,j]=gausslegendreint64(y->
-        # -allkindsofweight*
-        # D(Ksubq2(y))/branch[Int(j)]*
-        # (-4*innerB1*innerB2 + innerA1*innerA2*(P2 - 4*Q2))
-        # )
+        kernel11[i,j] = gausslegendreint64(y->
+        -allkindsofweight*
+        D(Ksubq2(y))/branch[j]*
+        (-4*innerB1*innerB2 + innerA1*innerA2*(P2 - 4*Q2))
+        )
 
         # kernel12[i,j]=gausslegendreint64(y->
         # -allkindsofweight*
@@ -72,11 +67,11 @@
         # ((2 *Kdotp *(K2^2 *(P2 *innerA1 *innerA2 *Kdotp + (4* innerB1 *innerB2 + innerA1* innerA2 *(P2 - 4* Q2 - 4 *Kdotq(y)))* Pdotq) + Kdotp* ((4* innerB1 *innerB2 + innerA1 *innerA2* (P2 + 8*Q2 - 16 *Kdotq(y))) *Kdotq(y)^2 + innerA1* innerA2 *Kdotp^2 *(-Q2 + 4* Kdotq(y)) - 2 *innerA1 *innerA2* Kdotp* Kdotq(y)* Pdotq) + K2 *(-innerA1* innerA2 *Kdotp^3 - 2 *innerA1* innerA2 *Kdotp^2 *Pdotq + Kdotq(y) *(-4* innerB1* innerB2 + innerA1 *innerA2 *(-P2 - 8* Q2 + 16 *Kdotq(y)))* Pdotq + Kdotp *((-4 *innerB1 *innerB2 + innerA1* innerA2* (-3* P2 + 4* Q2))* Kdotq(y) + 4* innerA1* innerA2* Kdotq(y)^2 + innerA1* innerA2 *(P2 *Q2 + 2 *Pdotq^2)))))/(3*(-P2* K2 + Kdotp^2)* (K2 + Q2 - 2 *Kdotq(y))))
         # )
 
-        kernel24[i,j]=gausslegendreint64(y->
-        -allkindsofweight*
-        D(Ksubq2(y))/branch[j]*
-        ((2 *(K2^2 *(P2* ((-innerA2* innerB1 + innerA1 *innerB2)* Kdotp + 2 *(innerA2* innerB1 + innerA1* innerB2) *Kdotq(y)) + 2 *P2* (-innerA2* innerB1 + innerA1* innerB2) *Pdotq + 4 *(innerA2 *innerB1 + innerA1* innerB2) *Pdotq^2) + Kdotp *(2* P2 *(-innerA2* innerB1 + innerA1 *innerB2)* Kdotq(y)^2 - (innerA2* innerB1 - innerA1* innerB2)* Kdotp^2 *(-Q2 + 4* Kdotq(y)) + 2* Kdotp* Kdotq(y)* (-((innerA2* innerB1 + innerA1* innerB2)* Q2) + 4 *(innerA2* innerB1 + innerA1 *innerB2) *Kdotq(y) + (innerA2 *innerB1 - innerA1* innerB2)* Pdotq)) + K2* ((innerA2* innerB1 - innerA1* innerB2) *Kdotp^3 + 2 *P2 *Kdotq(y) *((innerA2* innerB1 + innerA1 *innerB2)* Q2 - 2* (innerA2* innerB1 + innerA1 *innerB2)* Kdotq(y) + (innerA2 *innerB1 - innerA1 *innerB2)* Pdotq) - 2* Kdotp^2 *((innerA2 *innerB1 + innerA1 *innerB2)* Kdotq(y) + (-innerA2* innerB1 + innerA1* innerB2)* Pdotq) + Kdotp *(4 *Kdotq(y)* (P2 *(innerA2* innerB1 - innerA1 *innerB2) - 2* (innerA2* innerB1 + innerA1 *innerB2) *Pdotq) - (innerA2* innerB1 -innerA1 *innerB2) *(P2 *Q2 + 2* Pdotq^2)))))/(3* (-P2 *K2 + Kdotp^2) *(K2 + Q2 - 2* Kdotq(y))))
-        )
+        # kernel24[i,j]=gausslegendreint64(y->
+        # -allkindsofweight*
+        # D(Ksubq2(y))/branch[j]*
+        # ((2 *(K2^2 *(P2* ((-innerA2* innerB1 + innerA1 *innerB2)* Kdotp + 2 *(innerA2* innerB1 + innerA1* innerB2) *Kdotq(y)) + 2 *P2* (-innerA2* innerB1 + innerA1* innerB2) *Pdotq + 4 *(innerA2 *innerB1 + innerA1* innerB2) *Pdotq^2) + Kdotp *(2* P2 *(-innerA2* innerB1 + innerA1 *innerB2)* Kdotq(y)^2 - (innerA2* innerB1 - innerA1* innerB2)* Kdotp^2 *(-Q2 + 4* Kdotq(y)) + 2* Kdotp* Kdotq(y)* (-((innerA2* innerB1 + innerA1* innerB2)* Q2) + 4 *(innerA2* innerB1 + innerA1 *innerB2) *Kdotq(y) + (innerA2 *innerB1 - innerA1* innerB2)* Pdotq)) + K2* ((innerA2* innerB1 - innerA1* innerB2) *Kdotp^3 + 2 *P2 *Kdotq(y) *((innerA2* innerB1 + innerA1 *innerB2)* Q2 - 2* (innerA2* innerB1 + innerA1 *innerB2)* Kdotq(y) + (innerA2 *innerB1 - innerA1 *innerB2)* Pdotq) - 2* Kdotp^2 *((innerA2 *innerB1 + innerA1 *innerB2)* Kdotq(y) + (-innerA2* innerB1 + innerA1* innerB2)* Pdotq) + Kdotp *(4 *Kdotq(y)* (P2 *(innerA2* innerB1 - innerA1 *innerB2) - 2* (innerA2* innerB1 + innerA1 *innerB2) *Pdotq) - (innerA2* innerB1 -innerA1 *innerB2) *(P2 *Q2 + 2* Pdotq^2)))))/(3* (-P2 *K2 + Kdotp^2) *(K2 + Q2 - 2* Kdotq(y))))
+        # )
 
         # kernel31[i,j]=gausslegendreint64(y->
         # -allkindsofweight*

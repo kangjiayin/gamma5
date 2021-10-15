@@ -19,8 +19,8 @@ const ω=0.5;
 const dd=(0.82)^3/ω;
 const Nf=4;
 const rm=12/(33 - 2*Nf);
-const kstep=64
-const zstep=32
+const kstep=32
+const zstep=16
 const ystep=64
 const cutup=10. ^4
 const cutdown=10. ^(-4)
@@ -30,7 +30,7 @@ const dim=kstep*zstep
 z4=0.8274856637442727 #十的四次方
 
 # z4=1.
-##导入原来的数据
+# 导入原来的数据
 function Inport()
     local A, B, k
     A, B,k=load("/Users/kjy/Desktop/program/julia/Gamma5/data/ABk4.jld2","A","B","k");
@@ -45,21 +45,20 @@ end
 Inport();
 
 F(x::Float64)=((1-exp(-x/(4*mt)^2))/x)::Float64;
-D(t::Float64)=(8*pi^2*(dd*exp(-t/(ω^2))/ω^4+rm*F(t)/log(τ+(1+t/Λ^2)^2)))::Float64;
+D(t::Float64)=8*pi^2*(dd*exp(-t/(ω^2))/ω^4+rm*F(t)/log(τ+(1+t/Λ^2)^2))::Float64;
 branchfunction(x::Float64)=(x*AA(x)^2+BB(x)^2)::Float64
 A(x)=AA(x)
 B(x)=BB(x)
-####################
 ##引入简写的动量k,角度z
-getz(x::Int64)=((x-1)%zstep+1)::Int64
-getk(x::Int64)=((x-1)÷zstep+1)::Int64
+getz(x::Int64)=((x-1)%zstep+1)
+getk(x::Int64)=((x-1)÷zstep+1)
 
 
 # 动量点和权重
 meshk,weightk= gausslegendremesh(cutdown,cutup,kstep,2);
 meshz,weightz= gausschebyshev(zstep,2);
-##注意在kernel中，外动量为k指标为i，内动量q指标为j
-##定义一系列变量
+# 注意在kernel中，外动量为k指标为i，内动量q指标为j
+# 定义一系列变量
 kfunction(x::Int64)=meshk[getk(x)]::Float64
 zfunction(x::Int64)=meshz[getz(x)]::Float64
 qPlus2function(j::Int64)=(P2/4+k[j]+sqrt(P2*k[j])*z[j])::Float64

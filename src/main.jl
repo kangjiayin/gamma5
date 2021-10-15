@@ -2,7 +2,7 @@
 print("++++++++++++++++++++++++Begin++++++++++++++++++++++++++\n")
 include("./ini.jl")
 
-plist=[i/32 for i=1:2]
+plist=[0]
 lengthplist=length(plist)
 @time for indexforp2=1:lengthplist
     global P2
