@@ -49,7 +49,7 @@ D(t::Float64)=8*pi^2*(dd*exp(-t/(ω^2))/ω^4+rm*F(t)/log(τ+(1+t/Λ^2)^2))::Floa
 branchfunction(x::Float64)=(x*AA(x)^2+BB(x)^2)::Float64
 A(x)=AA(x)
 B(x)=BB(x)
-##引入简写的动量k,角度z
+# 引入简写的动量k,角度z
 getz(x::Int64)=((x-1)%zstep+1)
 getk(x::Int64)=((x-1)÷zstep+1)
 
@@ -57,6 +57,7 @@ getk(x::Int64)=((x-1)÷zstep+1)
 # 动量点和权重
 meshk,weightk= gausslegendremesh(cutdown,cutup,kstep,2);
 meshz,weightz= gausschebyshev(zstep,2);
+
 # 注意在kernel中，外动量为k指标为i，内动量q指标为j
 # 定义一系列变量
 kfunction(x::Int64)=meshk[getk(x)]::Float64

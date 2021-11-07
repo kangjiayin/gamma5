@@ -1,8 +1,14 @@
-using Plots
-for i=1:32
-    if i==1
-        scatter(P2,F1k[1,:],xscale=:log10)
+# After read.jl
+plot()
+j=1
+for i=6:48
+    global spm
+    if i==6
+        spm=SPMinter(P2[1:i],F1k[:,j][1:i],)
+        plot!(spm,xlims=(-10,1))
     else
-        scatter!(P2,F1k[i,:],xscale=:log10)
-    end
-end
+        spm=SPMinter(P2[1:i],F1k[:,j][1:i],)
+        plot!(spm,xlims=(-10,1))
+    end #if
+end #for
+plot!(xlims=(-3,1.5),ylims=(-1,1))

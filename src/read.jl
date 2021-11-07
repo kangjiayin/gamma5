@@ -4,15 +4,15 @@ using Gaussquad
 using SPMinterpolation
 
 k=gausslegendremesh(10. ^-4,10. ^4,32,2);
-P2=Array{Float64}(undef,32,1)
-F1k=Array{Float64}(undef,32,32)
-kname=Array{String}(undef,32,1)
-@time for i=1:32
+P2=Array{Float64}(undef,48,1)
+F1k=Array{Float64}(undef,48,32)
+kname=Array{String}(undef,48,1)
+@time for i=1:48
     local a, b
     global P2,F1k
-    a,b=load("/Users/kjy/Desktop/program/julia/Gamma5/data/F1k_等间距_old2/F1k$i.jld2","P2", "F1k")
+    a,b=load("/Users/kjy/Desktop/program/julia/Gamma5/data/F1k_等间距_new1/F1k$i.jld2","P2", "F1k")
     P2[i]=a
-    F1k[i,:]=b
+    F1k[i,:]=1 ./b
 end #for i
 
 # for i=1:32
@@ -22,16 +22,3 @@ end #for i
 # end
 
 # scatter(P2,F1k,xlim=[0,1.3],lable=k)
-plot()
-j=
-for i=6:32
-    global spm
-    if i==6
-        spm=SPMinter(P2[1:i],F1k[:,j][1:i],)
-        plot!(spm,xlims=(-10,1))
-    else
-        spm=SPMinter(P2[1:i],F1k[:,j][1:i],)
-        plot!(spm,xlims=(-10,1),ylims=(-2,5))
-    end #if
-end #for
-plot!(xlims=(-5,1.5))
