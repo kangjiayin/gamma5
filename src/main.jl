@@ -1,8 +1,8 @@
 # 总程序
 print("++++++++++++++++++++++++Begin++++++++++++++++++++++++++\n")
 include("./ini.jl")
-#plist=[i/50 for i=1:50]
- plist=[0. ]
+plist=[i/32. for i=1:32]
+# plist=[0. ]
 lengthplist=length(plist)
 @time for indexforp2=1:lengthplist
     global P2

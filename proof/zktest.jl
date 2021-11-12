@@ -16,8 +16,8 @@ cutdown=10^-4
 cutup=10. ^4
 kstep=32
 
-k2=10.
-q2=1.
+k2=10000.
+q2=10000.
 
 sum1= Vector{Float64}(undef, kstep);
 sum2= Vector{Float64}(undef, kstep);
