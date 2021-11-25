@@ -14,21 +14,30 @@ const m = 0.003;
 
 cutdown=10^-4
 cutup=10. ^4
-kstep=128
+
+
+kstep=512
+z2step=512
+z1step=32
 
 k2=10000.
 q2=10000.
 
-sum1= Vector{Float64}(undef, kstep);
-sum2= Vector{Float64}(undef, kstep);
-F(x)=(1-exp(-x/(4*mt)^2))/x;
+sum1= zeros(kstep);
+sum2= zeros(kstep);
+function F(x)
+    if x<10^-7
+        a=1/4
+    else
+        a=((-expm1(-x/(4*mt)^2))/x)::Float64;
+    end #if
+    a
+end
 D(t)=8*pi^2*(dd*exp(-t/(ω^2))/ω^4+rm*F(t)/log(τ+(1+t/Λ^2)^2));
 
 
 meshq,weightq=gausslegendremesh(cutdown,cutup,kstep,2);
 
-z2step=640
-z1step=64
 meshz2,weightz2=gausslegendre(z2step)
 meshz1,weightz1=gausschebyshev(z1step, 2)
 meshzk,weightzk=gausschebyshev(kstep, 2)
@@ -43,7 +52,12 @@ for z1i=1:z1step
         z1=meshz1[z1i]
         z2=meshz2[z2i]
         w=weight1*weight2
-        sum2[i]+=w*D(k2+q2-2*sqr*(zk*z1+sqrt((1-zk^2)*(1-z1^2))*z2))
+        kmiq=k2+q2-2*sqr*(zk*z1+sqrt((1-zk^2)*(1-z1^2))*z2)
+        if kmiq<0
+            print("$z2&$z1\n")
+        end
+        sum2[i]+=w*D(kmiq)
+        sum1[i]+=w/kmiq
     end 
 end
 end #th for

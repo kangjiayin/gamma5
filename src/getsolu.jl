@@ -1,9 +1,9 @@
 using Plots
 kernel=[kernel11 kernel12 kernel13 kernel14;kernel21 kernel22 kernel23 kernel24;kernel31 kernel32 kernel33 kernel34;kernel41 kernel42 kernel43 kernel44;]
 #δ=Diagonal(ones(4*dim))
-kernel_eva=I-kernel
+# kernel_eva=Array{BigFloat}(undef, 4*dim, 4*dim);
 right=[z4*ones(dim) ;zeros(3*dim)]
-
+kernel_eva=I-kernel
 
 solution=kernel_eva\right
 F1=Array{Float64}(undef, kstep, zstep)

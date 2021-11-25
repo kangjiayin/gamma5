@@ -20,12 +20,12 @@
         Kdotq(y)=(b+c*y)*a
         Ksubq2(y)=d-2*Kdotq(y)
         # 这里注意，三分之四在推导kernel就加进去了
-        allkindsofweight=Weightzq*Weightq*Q2/(16*pi^3)*z2^2
+        allkindsofweight=Weightq*Weightzq*Q2/(16*pi^3)*z2^2
 
         kernel11[i,j] = -allkindsofweight*gausslegendreint512(y->
-        D(Ksubq2(y)))/branch[j]*(-4*innerB1*innerB2 + innerA1*innerA2*(P2 - 4*Q2))*innerB1
+        D(Ksubq2(y)))/branch[j]*(-4*innerB1*innerB2 + innerA1*innerA2*(P2 - 4*Q2))
         
-        # kernel11[i,j] =-allkindsofweight/branch[j]*gausslegendreint64(y->
+        # kernel11[i,j] =-allkindsofweight/branch[j]*gausslegendreint512(y->
         # D(Ksubq2(y))*
         # (-4*innerB1*innerB2 + innerA1*innerA2*(P2 - 4*Q2))
         # )
@@ -106,3 +106,16 @@
         # )
     end
 end
+
+# testb=zeros(dim)
+# for i=1:dim
+#     testb[i]=0
+#     for j=1:dim
+#         testb[i]+=kernel11[i,j]
+#     end
+# end
+# testb .+=z4
+
+# [testb[i]/B1[i] for i=1:512]
+
+# [(B1[i]./0.003-solution[i])/(B1[i]./0.003) for i=1:length(B1)]

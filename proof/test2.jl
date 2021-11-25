@@ -37,6 +37,6 @@ for z1i=1:16
         z1=meshz1[z1i]
         z2=meshz2[z2i]
         w=weight1*weight2
-        sum2[z1i]+=w*gausschebyshevint64(zk->D(k2+q2-2*sqr*(zk*z1+sqrt((1-zk^2)*(1-z1^2))*z2)))*2/pi
+        sum2[z1i]+=w*gausschebyshevint64(zk->(2*zk^2-1)*D(k2+q2-2*sqr*(zk*z1+sqrt((1-zk^2)*(1-z1^2))*z2)))*2/pi
     end 
 end

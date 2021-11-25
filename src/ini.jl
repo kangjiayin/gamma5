@@ -19,7 +19,7 @@ const ω=0.5;
 const dd=(0.82)^3/ω;
 const Nf=4;
 const rm=12/(33 - 2*Nf);
-const kstep=32
+const kstep=128
 const zstep=16
 const ystep=64
 const cutup=10. ^4
@@ -27,8 +27,8 @@ const cutdown=10. ^(-4)
 const mt=0.5
 const dim=kstep*zstep
 
-z4=0.8274856637442727 #十的四次方
-z2=0.9895181767535651
+z4=0.8275425856098025 #十的四次方
+z2=0.9876847032224632
 
 # z4=1.
 # 导入原来的数据
@@ -44,9 +44,11 @@ end
 
 # 导入数据
 Inport();
-
-F(x::Float64)=((1-exp(-x/(4*mt)^2))/x)::Float64;
-D(t::Float64)=8*pi^2*(dd*exp(-t/(ω^2))/ω^4+rm*F(t)/log(τ+(1+t/Λ^2)^2))::Float64;
+# 标准版本的F
+# F(x::Float64)=((1-exp(-x/(4*mt)^2))/x)::Float64;
+# 对近0点优化
+F(x)=((-expm1(-x/(4*mt)^2))/x)::Float64;
+D(t)=8*pi^2*(dd*exp(-t/(ω^2))/ω^4+rm*F(t)/log(τ+(1+t/Λ^2)^2))::Float64;
 branchfunction(x::Float64)=(x*AA(x)^2+BB(x)^2)::Float64
 A(x)=AA(x)
 B(x)=BB(x)
