@@ -22,7 +22,7 @@
         # 这里注意，三分之四在推导kernel就加进去了
         allkindsofweight=Weightq*Weightzq*Q2/(16*pi^3)*z2^2
 
-        kernel11[i,j] = -allkindsofweight*gausslegendreint512(y->
+        kernel11[i,j] = -allkindsofweight*gausslegendreint64(y->
         D(Ksubq2(y)))/branch[j]*(-4*innerB1*innerB2 + innerA1*innerA2*(P2 - 4*Q2))
         
         # kernel11[i,j] =-allkindsofweight/branch[j]*gausslegendreint512(y->

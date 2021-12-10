@@ -19,13 +19,13 @@ const ω=0.5;
 const dd=(0.82)^3/ω;
 const Nf=4;
 const rm=12/(33 - 2*Nf);
-const kstep=128
-const zstep=16
+kstep=128::Int64
+zstep=32::Int64
 const ystep=64
 const cutup=10. ^4
 const cutdown=10. ^(-4)
 const mt=0.5
-const dim=kstep*zstep
+dim=kstep*zstep::Int64
 
 z4=0.8275425856098025 #十的四次方
 z2=0.9876847032224632
